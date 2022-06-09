@@ -1,0 +1,93 @@
+﻿
+@model IEnumerable<oriontek.Models.ViewModels.ClientViewmodel>
+
+@{
+    ViewData["Title"] = "Lista de Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h3>Lista de cliantes</h3>
+        </div>
+         <div class="col-sm-6">
+            <a class="btn btn-success d-block" asp-action="Create" asp-controller="Clientes">Crear Clientes</a>
+        </div>
+
+        </div>
+
+        <div class="row">
+  
+             <table class="table ">
+
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Direccion</th>
+                        <th>Opciones</th>
+                    </tr>    
+               </thead>
+
+               <tbody>
+                   
+                   @foreach (var clie in Model)
+                   {
+
+                       <tr>
+                           <td> @Html.DisplayFor(m=>clie.name)</td>
+                           <td>
+                                <ul>
+                                    @foreach (var direccion in ViewBag.Direcciones)
+                                    {
+                                        @if (direccion.Idcli == clie.idcli)
+                                        {    
+                                            <li>@direccion.Direccion1</li>
+                                        }
+                                    }
+                                </ul>
+                           </td>
+                            <td> 
+                                <button  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">añadir direccion</button>
+                              
+                                <form asp-controller="Clientes" asp-action="Delete">
+                                    <button class="btn btn-danger btn-light" asp-action="Delete" asp-controller="Clientes" asp-route-id="@clie.idcli" >eliminar</button>
+                                </form>
+                                 
+                             </td>
+                              
+                       </tr>
+                   }
+               </tbody>
+                 </table>
+               <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Direcciones</h5>
+      </div>
+      <div class="modal-body">
+ 
+    
+       <form  asp-controller="direcc" asp-action="Create" method="post"  >
+        <div class="form-group">
+            <div></div> 
+           <label class="control-label"></label>
+            <input  asp-route="" class="form-control" />
+        </div>
+   
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">añadir</button>
+      </div>
+       </form>
+
+    </div>
+  </div>
+</div>       
+       
+    </div>
+
+</div>
+
+
